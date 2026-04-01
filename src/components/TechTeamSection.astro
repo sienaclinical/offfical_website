@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+
+import septiImg from "../assets/teams/techs/Septi Rito Tombe, M.Sc.webp";
+import andikaImg from "../assets/teams/techs/Andika Hakim, M.Sc.webp";
+import rafliImg from "../assets/teams/techs/Rafli Setiawan.webp";
+import salahudinImg from "../assets/teams/techs/Salahudin Alayubi.webp";
+
+const team = [
+  { name: "Septi Rito Tombe, M.Sc", role: "Technical Project Manager", image: septiImg },
+  { name: "Andika Hakim, M.Sc", role: "AI Engineer", image: andikaImg },
+  { name: "Rafli Setiawan", role: "Software Engineer", image: rafliImg },
+  { name: "Salahudin Alayubi", role: "UI Designer", image: salahudinImg },
+];
+---
+
+<section class="pt-16 pb-6">
+  <div class="text-center max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-semibold text-siena-primary mb-4 font-prompt">
+      Tech Team
+    </h2>
+    <p class="text-gray-600 leading-relaxed text-[15px] md:text-[15.5px]">
+      Our technology team delivers comprehensive support for digital product
+      development, creating intuitive tools designed for the people who need
+      them most. Whether we are building platforms for direct patient
+      engagement, empowering researchers with advanced data tools, or
+      streamlining research operations, we bridge the gap between technical
+      excellence and real-world impact.
+    </p>
+  </div>
+
+  <div class="mt-12 flex flex-wrap justify-center gap-6 lg:gap-8">
+    {team.map((p) => (
+      <article class="bg-white border border-gray-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col w-full sm:basis-[calc(50%-0.75rem)] lg:basis-[calc(25%-1.5rem)] max-w-[320px]">
+        <div class="mx-auto w-20 h-20 rounded-full overflow-hidden border border-gray-100 bg-slate-50">
+          <Image
+            src={p.image}
+            alt={p.name}
+            class="w-full h-full object-cover"
+            widths={[160, 240]}
+            sizes="80px"
+            loading="lazy"
+          />
+        </div>
+        <h3 class="mt-5 text-[15px] font-bold text-gray-900 leading-snug">
+          {p.name}
+        </h3>
+        <p class="mt-1 text-[12.5px] font-semibold text-gray-500">{p.role}</p>
+      </article>
+    ))}
+  </div>
+</section>
+

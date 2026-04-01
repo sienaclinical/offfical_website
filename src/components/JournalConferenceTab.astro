@@ -1,0 +1,84 @@
+---
+const iconBook = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Zm0 18H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11v16ZM9 7h7v2H9V7Zm0 4h7v2H9v-2Z"/></svg>`;
+const iconScreen = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M20 4H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6v2H7v2h10v-2h-3v-2h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 12H4V6h16v10Z"/></svg>`;
+
+const items = [
+  {
+    title:
+      "A  Novel Innovation Using Modified Platelet-Rich Plasma (mPRP) for Preventing Urethral Stricture Recurrence in a Rabbit Model",
+    meta: "Scientific Reports. 2026. Publication in-press",
+    icon: iconBook,
+  },
+  {
+    title: "MicroRNA‑mediated approaches in ovarian cancer therapy",
+    meta: "Oncology Letters 28: 491, 2024.",
+    link: {
+      href: "https://doi.org/10.3892/ol.2024.14624",
+      label: "https://doi.org/10.3892/ol.2024.14624",
+    },
+    icon: iconBook,
+  },
+  {
+    title:
+      "Epidemiological and Clinical Features of COVID-19 Patients at National Emergency Hospital Wisma Atlet Kemayoran, Jakarta,Indonesia",
+    meta:
+      "National Public Health Journal. 2021; 16 (Special Issue 1): 11-16. DOI: 10.21109/kesmas.v0i0.5233",
+    icon: iconBook,
+  },
+  {
+    title:
+      "Factors Associated with Death in COVID-19 Patients in Jakarta, Indonesia: An Epidemiological Study",
+    meta: "International Journal of Internal Medicine. 2020; Vol 52 No 3.",
+    icon: iconBook,
+  },
+  {
+    title:
+      "Penemuan Biomarker pada pra-Kanker Serviks Positif HPV Risiko Tinggi melalui Integrative Analysis of Individual Patient Genomic-Data Sets",
+    meta:
+      "Oral Presentation at Seminar Nasional Biologi Tropika in Conjuction with Jogja MultiOmics Update. Yogjakarta-Indonesia. 2025",
+    icon: iconScreen,
+  },
+  {
+    title:
+      "Interpretable Random Forest for Classifying Prostate Cancer Severity from Genomics Datasets",
+    meta:
+      "Oral Presentation at The 15th International Conference on Information, Communication Technology and System. Bali-Indonesia. 2026",
+    icon: iconScreen,
+  },
+];
+---
+
+<div class="space-y-12">
+  <p class="text-gray-600 text-sm md:text-[15px] leading-relaxed text-center max-w-4xl mx-auto">
+    Our portfolio reflects a commitment to interdisciplinary research. By working alongside experts from various domains, we have been able to contribute to meaningful findings that bridge the gap between different scientific disciplines.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+    {
+      items.map((item) => (
+        <article class="bg-white border border-gray-100 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
+          <div class="text-siena-primary mb-5" set:html={item.icon} />
+          <h3 class="text-[17px] font-bold text-gray-900 mb-3 leading-snug">
+            {item.title}
+          </h3>
+          <p class="text-[14.5px] text-gray-600 leading-relaxed">
+            {item.meta}
+          </p>
+          {item.link && (
+            <p class="text-[14.5px] text-gray-600 leading-relaxed mt-1.5">
+              <a
+                href={item.link.href}
+                target="_blank"
+                rel="noreferrer"
+                class="text-siena-primary underline underline-offset-2 hover:text-siena-cyan transition-colors break-all"
+              >
+                {item.link.label}
+              </a>
+            </p>
+          )}
+        </article>
+      ))
+    }
+  </div>
+</div>
+

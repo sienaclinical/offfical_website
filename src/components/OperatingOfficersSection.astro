@@ -1,0 +1,85 @@
+---
+import { Image } from "astro:assets";
+import septianiImg from "../assets/teams/operating-officers/Septiani Gultom.webp";
+
+const placeholderAvatar = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-10 h-10"><path d="M12 12c2.76 0 5-2.24 5-5S14.76 2 12 2 7 4.24 7 7s2.24 5 5 5Zm0 2c-4.42 0-8 2.24-8 5v3h16v-3c0-2.76-3.58-5-8-5Z"/></svg>`;
+
+type Officer =
+  | {
+      name: string;
+      role: string;
+      bio: string;
+      hasImage: false;
+    }
+  | {
+      name: string;
+      role: string;
+      bio: string;
+      hasImage: true;
+      image: ImageMetadata;
+    };
+
+const officers: Officer[] = [
+  {
+    name: "Gunawan Wibowo",
+    role: "Finance and Operation Lead",
+    bio: "Experienced Finance, Controlling, and Accounting Analyst with strong expertise in general accounting, costing, and journal entry preparation. Skilled in implementing innovative accounting practices and procedures",
+    hasImage: false,
+  },
+  {
+    name: "Septiani Gultom",
+    role: "Field Research Lead",
+    bio: ">10 years of experienced in clinical data and biological sample collection as well as leading field teams (incl. data management, licensing, administration, finance & research reporting)",
+    hasImage: true,
+    image: septianiImg,
+  },
+];
+---
+
+<section class="pt-16 pb-6">
+  <div class="text-center max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-semibold text-siena-primary mb-4 font-prompt">
+      Operating Officers
+    </h2>
+    <p class="text-gray-600 leading-relaxed text-[15px] md:text-[15.5px]">
+      Behind every successful project is our Operational Team—the unsung heroes
+      of Siena Clinical. They are the tactical masters who turn logistical
+      hurdles into smooth pathways for progress. In the complex world of
+      healthcare implementation, they move with a signature "Siena spirit": a
+      relentless commitment to efficiency. Whether navigating remote field sites
+      or managing intricate project timelines, our operations team ensures that
+      no challenge stands in the way of delivering care and data where it is
+      needed most.
+    </p>
+  </div>
+
+  <div class="mt-12 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto">
+    {officers.map((p) => (
+      <article class="bg-white border border-gray-100 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col">
+        <div class="mx-auto w-20 h-20 rounded-full overflow-hidden border border-gray-100 bg-slate-50 flex items-center justify-center text-siena-primary/80">
+          {p.hasImage ? (
+            <Image
+              src={p.image}
+              alt={p.name}
+              class="w-full h-full object-cover"
+              widths={[160, 240]}
+              sizes="80px"
+              loading="lazy"
+            />
+          ) : (
+            <span set:html={placeholderAvatar} />
+          )}
+        </div>
+
+        <h3 class="mt-6 text-[16px] font-bold text-gray-900 leading-snug">
+          {p.name}
+        </h3>
+        <p class="mt-1 text-[12.5px] font-semibold text-gray-500">{p.role}</p>
+        <p class="mt-4 text-[14px] text-gray-600 leading-relaxed flex-1">
+          {p.bio}
+        </p>
+      </article>
+    ))}
+  </div>
+</section>
+

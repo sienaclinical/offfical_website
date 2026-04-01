@@ -1,0 +1,66 @@
+---
+import { Image } from "astro:assets";
+
+import kartikaImg from "../assets/teams/clinical-experts/dr. Kartika Hapsari, SpOG, Sub.Sp.Onk, FNVOG.webp";
+import hennyImg from "../assets/teams/clinical-experts/Dr. dr. Henny Putri, Sp.OG (K).webp";
+import ratihImg from "../assets/teams/clinical-experts/dr. Ratih Hariandy, M.Ked(OG), Sp.OG.webp";
+
+const experts = [
+  {
+    name: "dr. Kartika Hapsari, SpOG, Sub.Sp.Onk, FNVOG",
+    bio: "A gynecologic oncologist and the Director of Bintaro Women and Child Clinic (BWCC); specializes in managing obstetric and gynecologic conditions, particularly cancers of the female reproductive system, including ovarian, cervical, and uterine cancer.",
+    image: kartikaImg,
+  },
+  {
+    name: "Dr. dr. Henny Putri, Sp.OG (K)",
+    bio: "A specialist in obstetrics and gynecology and a member of the Indonesian Medical Association (IDI) and the Indonesian Society of Obstetrics and Gynecology (POGI). She provides medical consultations in obstetrics and gynecology and holds a PhD from Universitas Gadjah Mada.",
+    image: hennyImg,
+  },
+  {
+    name: "dr. Ratih Hariandy, M.Ked(OG), Sp.OG",
+    bio: "A specialist in Obstetrics and Gynecology with a Clinical focus on Gynecologic Oncology.",
+    image: ratihImg,
+  },
+];
+---
+
+<section class="pt-16 pb-6">
+  <div class="text-center max-w-5xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-semibold text-siena-primary mb-4 font-prompt">
+      Clinical Experts
+    </h2>
+    <p class="text-gray-600 leading-relaxed text-[15px] md:text-[15.5px]">
+      Our clinical experts bring deep, frontline insights to the heart of our
+      innovation process. By collaborating closely with our research teams, we
+      co-create practical solutions for today’s most pressing healthcare
+      challenges. From specialized clinical-research consultations to immersive
+      hands-on training, we empower healthcare practitioners with the skills and
+      evidence-based strategies they need to excel.
+    </p>
+  </div>
+
+  <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+    {experts.map((p) => (
+      <article class="bg-white border border-gray-100 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col">
+        <div class="mx-auto w-22 h-22 rounded-full overflow-hidden border border-gray-100 bg-slate-50">
+          <Image
+            src={p.image}
+            alt={p.name}
+            class="w-full h-full object-cover"
+            widths={[176, 264]}
+            sizes="88px"
+            loading="lazy"
+          />
+        </div>
+
+        <h3 class="mt-6 text-[16px] font-bold text-gray-900 leading-snug">
+          {p.name}
+        </h3>
+        <p class="mt-4 text-[14px] text-gray-600 leading-relaxed flex-1">
+          {p.bio}
+        </p>
+      </article>
+    ))}
+  </div>
+</section>
+

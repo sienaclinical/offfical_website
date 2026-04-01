@@ -1,0 +1,182 @@
+---
+import Layout from "../layouts/Layout.astro";
+import IntegratedTab from "../components/IntegratedTab.astro";
+import ConsultationTab from "../components/ConsultationTab.astro";
+import ResearchTab from "../components/ResearchTab.astro";
+import UpskillingTab from "../components/UpskillingTab.astro";
+
+const tabs = [
+  {
+    id: "integrated",
+    target: "tab-content-integrated",
+    label: "Integrated Capabilities",
+    active: true,
+  },
+  {
+    id: "consultation",
+    target: "tab-content-consultation",
+    label: "Consultation",
+    active: false,
+  },
+  {
+    id: "research",
+    target: "tab-content-research",
+    label: "Research",
+    active: false,
+  },
+  {
+    id: "upskilling",
+    target: "tab-content-upskilling",
+    label: "Upskilling",
+    active: false,
+  },
+];
+---
+
+<Layout
+  title="Capability | Siena Clinical"
+  description="Capability - Siena Clinical Services and Offerings"
+>
+  <main class="w-full min-h-screen pt-16 pb-24">
+    <div class="max-w-7xl mx-auto px-6">
+      <!-- Tabs Layout -->
+      <div class="border-b border-gray-200 mb-20 relative">
+        <nav
+          class="-mb-px flex flex-wrap gap-8"
+          role="tablist"
+          aria-label="Capability tabs"
+          id="capability-tabs"
+        >
+          {
+            tabs.map((tab) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${tab.id}`}
+                aria-controls={tab.target}
+                aria-selected={tab.active ? "true" : "false"}
+                data-target={tab.target}
+                class:list={[
+                  "tab-button whitespace-nowrap py-4 px-2 border-b-2 font-semibold text-lg transition-all duration-300",
+                  tab.active
+                    ? "border-siena-cyan text-siena-primary active-tab"
+                    : "border-transparent text-gray-400 hover:text-gray-800 hover:border-gray-300",
+                ]}
+              >
+                {tab.label}
+              </button>
+            ))
+          }
+        </nav>
+      </div>
+
+      <!-- Content Sections -->
+      <div class="tab-contents">
+        <!-- Integrated Capabilities Content -->
+        <section
+          id="tab-content-integrated"
+          role="tabpanel"
+          aria-labelledby="tab-integrated"
+          class="tab-content block relative w-full max-w-5xl mx-auto py-10 opacity-100 transition-opacity duration-300"
+        >
+          <IntegratedTab />
+        </section>
+
+        <!-- Consultation Content -->
+        <section
+          id="tab-content-consultation"
+          role="tabpanel"
+          aria-labelledby="tab-consultation"
+          class="tab-content hidden relative w-full max-w-6xl mx-auto opacity-0 transition-opacity duration-300"
+        >
+          <ConsultationTab />
+        </section>
+
+        <!-- Research Content -->
+        <section
+          id="tab-content-research"
+          role="tabpanel"
+          aria-labelledby="tab-research"
+          class="tab-content hidden relative w-full max-w-7xl mx-auto py-10 opacity-0 transition-opacity duration-300"
+        >
+          <ResearchTab />
+        </section>
+
+        <!-- Upskilling Content (Placeholder) -->
+        <section
+          id="tab-content-upskilling"
+          role="tabpanel"
+          aria-labelledby="tab-upskilling"
+          class="tab-content hidden relative w-full max-w-5xl mx-auto py-10 opacity-0 transition-opacity duration-300"
+        >
+          <p class="text-gray-500 text-center">
+            Upskilling content coming soon...
+          </p>
+        </section>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = button.getAttribute("data-target");
+
+        // Reset all buttons
+        tabButtons.forEach((btn) => {
+          btn.classList.remove(
+            "border-siena-cyan",
+            "text-siena-primary",
+            "active-tab",
+          );
+          btn.classList.add(
+            "border-transparent",
+            "text-gray-400",
+            "hover:text-gray-800",
+            "hover:border-gray-300",
+          );
+          btn.removeAttribute("aria-current");
+        });
+
+        // Activate clicked button
+        button.classList.add(
+          "border-siena-cyan",
+          "text-siena-primary",
+          "active-tab",
+        );
+        button.classList.remove(
+          "border-transparent",
+          "text-gray-400",
+          "hover:text-gray-800",
+          "hover:border-gray-300",
+        );
+        button.setAttribute("aria-current", "page");
+
+        // Switch contents
+        tabContents.forEach((content) => {
+          content.classList.remove("block");
+          content.classList.add("hidden", "opacity-0");
+        });
+
+        if (!targetId) return;
+
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+          targetContent.classList.remove("hidden");
+          targetContent.classList.add("block");
+          // Add small delay for opacity transition
+          setTimeout(() => {
+            targetContent.classList.remove("opacity-0");
+            targetContent.classList.add("opacity-100");
+          }, 10);
+        }
+      });
+    });
+  });
+</script>

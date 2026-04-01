@@ -1,0 +1,152 @@
+---
+import Layout from "../layouts/Layout.astro";
+import JournalConferenceTab from "../components/JournalConferenceTab.astro";
+import BlogTab from "../components/BlogTab.astro";
+import PastEventsTab from "../components/PastEventsTab.astro";
+
+const tabs = [
+  {
+    id: "journal-conference",
+    target: "tab-content-journal-conference",
+    label: "Journal and Conference",
+    active: true,
+  },
+  {
+    id: "blog",
+    target: "tab-content-blog",
+    label: "Blog",
+    active: false,
+  },
+  {
+    id: "past-events",
+    target: "tab-content-past-events",
+    label: "Past Events",
+    active: false,
+  },
+];
+---
+
+<Layout title="Publication | Siena Clinical" description="Publication - Siena Clinical">
+  <main class="w-full min-h-screen pt-16 pb-24">
+    <div class="max-w-7xl mx-auto px-6">
+      <div class="border-b border-gray-200 mb-20 relative">
+        <nav
+          class="-mb-px flex flex-wrap gap-8"
+          role="tablist"
+          aria-label="Publication tabs"
+          id="publication-tabs"
+        >
+          {
+            tabs.map((tab) => (
+              <button
+                type="button"
+                role="tab"
+                id={`tab-${tab.id}`}
+                aria-controls={tab.target}
+                aria-selected={tab.active ? "true" : "false"}
+                data-target={tab.target}
+                class:list={[
+                  "tab-button whitespace-nowrap py-4 px-2 border-b-2 font-semibold text-lg transition-all duration-300",
+                  tab.active
+                    ? "border-siena-cyan text-siena-primary active-tab"
+                    : "border-transparent text-gray-400 hover:text-gray-800 hover:border-gray-300",
+                ]}
+              >
+                {tab.label}
+              </button>
+            ))
+          }
+        </nav>
+      </div>
+
+      <div class="tab-contents">
+        <section
+          id="tab-content-journal-conference"
+          role="tabpanel"
+          aria-labelledby="tab-journal-conference"
+          class="tab-content block relative w-full max-w-6xl mx-auto py-10 opacity-100 transition-opacity duration-300"
+        >
+          <JournalConferenceTab />
+        </section>
+
+        <section
+          id="tab-content-blog"
+          role="tabpanel"
+          aria-labelledby="tab-blog"
+          class="tab-content hidden relative w-full max-w-6xl mx-auto py-10 opacity-0 transition-opacity duration-300"
+        >
+          <BlogTab />
+        </section>
+
+        <section
+          id="tab-content-past-events"
+          role="tabpanel"
+          aria-labelledby="tab-past-events"
+          class="tab-content hidden relative w-full max-w-6xl mx-auto py-10 opacity-0 transition-opacity duration-300"
+        >
+          <PastEventsTab />
+        </section>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const tabButtons = document.querySelectorAll(".tab-button");
+    const tabContents = document.querySelectorAll(".tab-content");
+
+    tabButtons.forEach((button) => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        const targetId = button.getAttribute("data-target");
+
+        tabButtons.forEach((btn) => {
+          btn.classList.remove(
+            "border-siena-cyan",
+            "text-siena-primary",
+            "active-tab",
+          );
+          btn.classList.add(
+            "border-transparent",
+            "text-gray-400",
+            "hover:text-gray-800",
+            "hover:border-gray-300",
+          );
+          btn.removeAttribute("aria-current");
+        });
+
+        button.classList.add(
+          "border-siena-cyan",
+          "text-siena-primary",
+          "active-tab",
+        );
+        button.classList.remove(
+          "border-transparent",
+          "text-gray-400",
+          "hover:text-gray-800",
+          "hover:border-gray-300",
+        );
+        button.setAttribute("aria-current", "page");
+
+        tabContents.forEach((content) => {
+          content.classList.remove("block");
+          content.classList.add("hidden", "opacity-0");
+        });
+
+        if (!targetId) return;
+
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+          targetContent.classList.remove("hidden");
+          targetContent.classList.add("block");
+          setTimeout(() => {
+            targetContent.classList.remove("opacity-0");
+            targetContent.classList.add("opacity-100");
+          }, 10);
+        }
+      });
+    });
+  });
+</script>
+

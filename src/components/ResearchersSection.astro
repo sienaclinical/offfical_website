@@ -1,0 +1,191 @@
+---
+import { Image } from "astro:assets";
+
+import putriImg from "../assets/teams/researchers/Putri Novianti, MSc, PhD.webp";
+import alfiImg from "../assets/teams/researchers/dr. Alfi Yasmina, MD, PhD.webp";
+import ivonneImg from "../assets/teams/researchers/Ivonne Martin, MS, PhD.webp";
+import dewiImg from "../assets/teams/researchers/Dewi Amalia, MBat.webp";
+import auliaImg from "../assets/teams/researchers/Aulia Kharis.webp";
+import innasImg from "../assets/teams/researchers/Innas Widiasti, M.Biomed.webp";
+import muhammadImg from "../assets/teams/researchers/Muhammad Alhaddad, M.Si.webp";
+
+type Link = { href: string; label: string; kind: "linkedin" | "scholar" | "github" };
+type Person = {
+  name: string;
+  role: string;
+  bio: string;
+  image: any;
+  links?: Link[];
+};
+
+const iconMap: Record<Link["kind"], string> = {
+  linkedin: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1 4.98 2.12 4.98 3.5ZM.22 8.09H4.8V24H.22V8.09ZM8.09 8.09H12.5V10.1h.06c.61-1.16 2.1-2.38 4.32-2.38 4.62 0 5.48 3.04 5.48 7V24h-4.6v-7.5c0-1.79-.03-4.1-2.5-4.1-2.5 0-2.88 1.95-2.88 3.97V24H8.09V8.09Z"/></svg>`,
+  scholar: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path d="M12 3 1 9l11 6 9-4.91V17h2V9L12 3Zm0 14L4.24 12.8 12 8.6l7.76 4.2L12 17Z"/><path d="M12 14.5 6 11.2v4.3c0 1.93 2.69 3.5 6 3.5s6-1.57 6-3.5v-4.3l-6 3.3Z"/></svg>`,
+  github: `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-4 h-4"><path fill-rule="evenodd" d="M12 2C6.48 2 2 6.58 2 12.26c0 4.53 2.87 8.37 6.84 9.73.5.1.68-.22.68-.48 0-.24-.01-.87-.01-1.7-2.78.62-3.37-1.36-3.37-1.36-.46-1.19-1.11-1.5-1.11-1.5-.9-.63.07-.62.07-.62 1 .07 1.53 1.06 1.53 1.06.89 1.56 2.34 1.11 2.91.85.09-.66.35-1.11.63-1.37-2.22-.26-4.56-1.14-4.56-5.08 0-1.12.39-2.03 1.03-2.75-.1-.26-.45-1.3.1-2.7 0 0 .84-.27 2.75 1.05A9.32 9.32 0 0 1 12 6.84c.85 0 1.7.12 2.5.35 1.9-1.32 2.74-1.05 2.74-1.05.55 1.4.2 2.44.1 2.7.64.72 1.03 1.63 1.03 2.75 0 3.95-2.34 4.81-4.57 5.07.36.32.68.95.68 1.92 0 1.38-.01 2.5-.01 2.84 0 .26.18.59.69.48A10.03 10.03 0 0 0 22 12.26C22 6.58 17.52 2 12 2Z" clip-rule="evenodd"/></svg>`,
+};
+
+const researchers: Person[] = [
+  {
+    name: "Putri Novianti, MSc, PhD",
+    role: "Co-Founder & Scientific Board",
+    bio: "A (bio)statistician by training with specialization in statistical analyses on high dimensional molecular data and have years of experience as a data practitioner in tech-industries.",
+    image: putriImg,
+    links: [
+      {
+        kind: "linkedin",
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/putri-wikie-novianti-3bb97718/",
+      },
+      {
+        kind: "scholar",
+        label: "Google Scholar",
+        href: "https://scholar.google.co.id/citations?user=vwxH1p8AAAAJ&hl=id",
+      },
+    ],
+  },
+  {
+    name: "dr. Alfi Yasmina, MD, PhD",
+    role: "Clinical Epidemiologist",
+    bio: "A pharmacoepidemiologist, with years of experience in teaching and supervising research. Interest: drug utilization, drug effectiveness & safety, & pharmacogenomics",
+    image: alfiImg,
+    links: [
+      {
+        kind: "linkedin",
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/alfi-yasmina-3b7308/",
+      },
+      {
+        kind: "scholar",
+        label: "Google Scholar",
+        href: "https://scholar.google.nl/citations?user=0hq8kOYAAAAJ&hl=en",
+      },
+    ],
+  },
+  {
+    name: "Ivonne Martin, MS, PhD",
+    role: "Senior Statistician",
+    bio: "A Postdoctoral Researcher, specialized in modelling correlated and compositional data with years of experience in biomedical research.",
+    image: ivonneImg,
+    links: [
+      {
+        kind: "linkedin",
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/ivonne-martin-6654791b/",
+      },
+    ],
+  },
+  {
+    name: "Dewi Amalia, MBat",
+    role: "Statistician",
+    bio: "A statistician graduated from Monash University Australia with a specialization in Business Analytics.",
+    image: dewiImg,
+    links: [
+      {
+        kind: "linkedin",
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/dewi-lestari-amaliah-579b231a1/",
+      },
+      { kind: "github", label: "GitHub", href: "https://github.com/Dewi-Amaliah" },
+    ],
+  },
+  {
+    name: "Aulia Kharis",
+    role: "Statistician",
+    bio: "A statistician, Master's candidate in Statistics, Certified TensorFlow Developer, and R Shiny Developer.",
+    image: auliaImg,
+    links: [
+      {
+        kind: "linkedin",
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/aulia-kharis-rakhmasari/",
+      },
+    ],
+  },
+  {
+    name: "Innas Widiasti, M.Biomed",
+    role: "Bioinformatician",
+    bio: "Biomedical master's graduate in bioinformatics with experience in cancer research, including database analysis, DNAseq, mutations, and molecular docking for drug analysis.",
+    image: innasImg,
+    links: [
+      {
+        kind: "linkedin",
+        label: "LinkedIn",
+        href: "https://www.linkedin.com/in/innas-widiasti/",
+      },
+      {
+        kind: "scholar",
+        label: "Google Scholar",
+        href: "https://scholar.google.com/citations?hl=id&user=1Dh0kLwAAAAJ",
+      },
+    ],
+  },
+  {
+    name: "Muhammad Alhaddad, M.Si",
+    role: "Statistician",
+    bio: "A master's graduate in Statistics",
+    image: muhammadImg,
+  },
+];
+---
+
+<section class="pt-10 pb-6">
+  <div class="text-center max-w-5xl mx-auto">
+    <h1 class="text-3xl md:text-4xl font-semibold text-siena-primary mb-4 font-prompt">
+      Researchers
+    </h1>
+    <p class="text-gray-600 leading-relaxed text-[15px] md:text-[15.5px]">
+      Our researchers serve as your full strategic partners, from study design
+      and protocol development to advanced data analysis and final reporting.
+      Our diverse scientific board leverages years of experience in
+      epidemiology, biostatistics, and clinical medicine to tackle the most
+      pressing health challenges. We don’t just collect data; we transform it
+      into actionable evidence that empowers academia, government institutions,
+      and healthcare stakeholders.
+    </p>
+  </div>
+
+  <div class="mt-12 flex flex-wrap justify-center gap-6 lg:gap-8">
+    {researchers.map((p) => (
+      <article class="bg-white border border-gray-100 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col w-full sm:basis-[calc(50%-0.75rem)] lg:basis-[calc(25%-1.5rem)] max-w-[320px]">
+        <div class="mx-auto w-20 h-20 rounded-full overflow-hidden border border-gray-100 bg-slate-50">
+          <Image
+            src={p.image}
+            alt={p.name}
+            class="w-full h-full object-cover"
+            widths={[160, 240]}
+            sizes="80px"
+            loading="lazy"
+          />
+        </div>
+
+        <h3 class="mt-5 text-[15px] font-bold text-gray-900 leading-snug">
+          {p.name}
+        </h3>
+        <p class="mt-1 text-[12.5px] font-semibold text-gray-500">
+          {p.role}
+        </p>
+        <p class="mt-4 text-[13.5px] text-gray-600 leading-relaxed flex-1">
+          {p.bio}
+        </p>
+
+        {p.links && p.links.length > 0 && (
+          <div class="mt-5 flex items-center justify-center gap-4">
+            {p.links.map((l) => (
+              <a
+                href={l.href}
+                target="_blank"
+                rel="noreferrer"
+                class="inline-flex items-center justify-center w-9 h-9 rounded-full border border-gray-200 text-gray-700 hover:bg-slate-50 hover:text-siena-primary transition-colors"
+                aria-label={l.label}
+                title={l.label}
+              >
+                <span set:html={iconMap[l.kind]} />
+              </a>
+            ))}
+          </div>
+        )}
+      </article>
+    ))}
+  </div>
+</section>
+

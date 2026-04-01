@@ -1,0 +1,171 @@
+---
+import { Image } from "astro:assets";
+import researchHero from "../assets/capability/research-hero.webp";
+import hrhpvImage from "../assets/capability/hrhpv.webp";
+import prostateImage from "../assets/capability/prostate-cancer.webp";
+import researchIllustration from "../assets/capability/virtual-team-meeting.svg";
+
+const researchHeroData = {
+  title: "Research",
+  subtitle:
+    "~ We are your full partner for everything from strategy to execution ~",
+  image: researchHero,
+};
+
+const researchAbout =
+  "Siena Clinical team ensures that research is conducted in scientifically robust way to produce valid findings without losing our focus on the practical aspects of the study. We have a scientific board with a strong international academic background, affiliations and ample research experience. Our scientific board will carefully review, supervise and monitor the study from the academic and clinical aspects. Our research assistants and field workers have extensive experience in running studies and dealing with practicalities, including data collection in the Indonesian clinical and hospital settings, but also in open population settings.";
+
+const researchCollaborationOptions = [
+  { title: "Full conduct of a study" },
+  { title: "Consultation or advise only" },
+];
+
+const researchStudies = [
+  {
+    title: "hrHPV and Cervical pre-Cancer",
+    description:
+      "The participation of cervical cancer screening in Indonesia is, unfortunately, very low (12%), which leads to the high mortality rate (60%) amongst the incidences. This phenomenon is due to lack of awareness and lack of confidence in doing the screening. Our research focuses on finding an alternative of less invasive screening method yet accurate, which later is expected to increase the participation rate of screening programs.",
+    image: hrhpvImage,
+    alt: "hrHPV and Cervical pre-Cancer",
+    details: [
+      {
+        label: "Collaboration",
+        value: "BWCC, RSPAD Gatot Soebroto, Yarsi University",
+      },
+      { label: "Methods", value: "Genome Sequencing, PCR, IPD meta-analysis" },
+      { label: "Timeline", value: "2024-2027" },
+      { label: "Funding", value: "A non-profit organization" },
+    ],
+  },
+  {
+    title: "Prostate Cancers and Kidney Diseases",
+    description:
+      "Prostate cancer ranks as the sixth most common cancer among men in Indonesia. The exact causes of prostate cancer are not fully understood, but several factors contribute to its development, including genetic, lifestyle, environmental influences, and lack of awareness and screening. Notably, prostate cancer survival rates in SEA, including Indonesia, are generally lower than those in Europe and North America. This disparity may be attributed to less access to diagnostic facilities and higher age at disease recognition compared to advanced countries. Improving early detection and access to quality healthcare services is crucial for enhancing survival outcomes for prostate cancer patients in Indonesia, particularly in low-resource settings.",
+    image: prostateImage,
+    alt: "Prostate Cancers and Kidney Diseases",
+    details: [
+      { label: "Collaboration", value: "UB, UMN, RSUD Saiful Anwar" },
+      {
+        label: "Methods",
+        value: "Genome Sequencing, Augmented Reality, Epidemiology",
+      },
+      { label: "Timeline", value: "2024-2027" },
+      { label: "Funding", value: "A non-profit organization, DIKTI" },
+    ],
+  },
+];
+---
+
+<div class="space-y-12">
+  <div class="relative overflow-hidden rounded-4xl bg-slate-900">
+    <Image
+      src={researchHeroData.image}
+      alt="Research hero"
+      class="absolute inset-0 w-full h-full object-cover opacity-90"
+    />
+    <div class="absolute inset-0 bg-slate-900/45"></div>
+    <div
+      class="relative z-10 flex h-[320px] md:h-[360px] items-center justify-center px-6 text-center"
+    >
+      <div class="max-w-3xl">
+        <p class="text-sm uppercase tracking-[0.4em] text-siena-cyan mb-4">
+          {researchHeroData.title}
+        </p>
+        <h1 class="text-4xl md:text-5xl font-semibold text-white mb-4">
+          {researchHeroData.title}
+        </h1>
+        <p class="text-base md:text-lg text-slate-100">
+          {researchHeroData.subtitle}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid gap-10 lg:grid-cols-[0.9fr_0.8fr] items-center">
+    <article>
+      <p class="text-sm uppercase tracking-[0.35em] text-siena-cyan mb-3">
+        About
+      </p>
+      <h2 class="text-3xl md:text-4xl font-semibold text-siena-primary mb-6">
+        Siena Clinical Research Team
+      </h2>
+      <p class="text-gray-600 leading-relaxed text-[15.5px]">{researchAbout}</p>
+    </article>
+
+    <aside class="rounded-3xl bg-white border border-gray-100 p-6 shadow-sm">
+      <Image
+        src={researchIllustration}
+        alt="Research illustration"
+        class="w-full h-full object-contain"
+      />
+    </aside>
+  </div>
+
+  <section class="rounded-4xl border border-gray-100 bg-white p-8 shadow-sm">
+    <div
+      class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between"
+    >
+      <div>
+        <p class="text-sm uppercase tracking-[0.35em] text-siena-cyan mb-2">
+          Open for collaborations
+        </p>
+        <h3 class="text-2xl font-semibold text-siena-primary">
+          Open for collaborations
+        </h3>
+      </div>
+    </div>
+    <p class="mt-5 text-gray-600 leading-relaxed">
+      Potential collaborators are invited to submit their research ideas or
+      proposal. Our scientific and management board will first review every
+      submitted proposal or request. We always put our values on top to ensure
+      that the study design, data collection, and report writing are performed
+      in such a way to produce scientifically valid results. Depending on the
+      client demands and our capacity, we will discuss the extent of our
+      involvement in the proposed study, which can be in the range of
+    </p>
+    <div class="mt-8 grid gap-4 md:grid-cols-2">
+      {
+        researchCollaborationOptions.map((option) => (
+          <div class="rounded-3xl border border-gray-200 bg-slate-50 p-5">
+            <p class="font-semibold text-gray-900">{option.title}</p>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <section class="space-y-8">
+    {
+      researchStudies.map((study) => (
+        <article class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] items-center rounded-4xl border border-gray-100 bg-white p-6 shadow-sm">
+          <div class="overflow-hidden rounded-3xl bg-slate-100">
+            <Image
+              src={study.image}
+              alt={study.alt}
+              class="w-full h-full object-cover min-h-[320px]"
+            />
+          </div>
+          <div class="space-y-5">
+            <div>
+              <p class="text-sm uppercase tracking-[0.35em] text-siena-cyan mb-2">
+                Research study
+              </p>
+              <h3 class="text-2xl font-semibold text-siena-primary">
+                {study.title}
+              </h3>
+            </div>
+            <p class="text-gray-600 leading-relaxed">{study.description}</p>
+            <div class="grid gap-4 sm:grid-cols-2">
+              {study.details.map((detail) => (
+                <div class="rounded-3xl border border-gray-100 bg-slate-50 p-4">
+                  <p class="font-semibold text-gray-900">{detail.label}</p>
+                  <p class="text-gray-600 mt-2">{detail.value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </section>
+</div>
