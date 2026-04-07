@@ -19,9 +19,22 @@ const techTeam = teamEntries.filter(
 const operatingOfficers = teamEntries.filter(
   (entry) => entry.data.category === "operating-officers",
 );
+
+const teamSchema = {
+  "@context": "https://schema.org",
+  "@type": "AboutPage",
+  name: "Siena Clinical Team",
+  description:
+    "Meet the Siena Clinical team of researchers, clinical experts, technology specialists, and operating officers.",
+  url: "https://www.sienaclinical.com/team",
+};
 ---
 
-<Layout title="Team | Siena Clinical" description="Team - Siena Clinical">
+<Layout
+  title="Team | Siena Clinical Experts and Researchers"
+  description="Meet Siena Clinical researchers, clinical experts, tech team members, and operating officers supporting healthcare innovation."
+  structuredData={teamSchema}
+>
   <main class="w-full min-h-screen pt-16 pb-24">
     <div class="max-w-7xl mx-auto px-6">
       <TeamSection

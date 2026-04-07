@@ -26,11 +26,33 @@ const course = courses.find((c) => getCourseSlug(c) === slug);
 if (!course) {
   return Astro.redirect("/capability");
 }
+
+const courseUrl = `https://www.sienaclinical.com/courses/${course.id}`;
+const courseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  name: course.data.title,
+  description: course.data.description,
+  provider: {
+    "@type": "Organization",
+    name: "Siena Clinical",
+    url: "https://www.sienaclinical.com/",
+  },
+  educationalCredentialAwarded: course.data.badge || undefined,
+  url: courseUrl,
+  instructor: course.data.instructor
+    ? {
+        "@type": "Person",
+        name: course.data.instructor,
+      }
+    : undefined,
+};
 ---
 
 <Layout
-  title={`${course.data.title} | Siena Clinical`}
+  title={`${course.data.title} | Siena Clinical Course`}
   description={course.data.description}
+  structuredData={courseSchema}
 >
   <main class="w-full min-h-screen pt-16 pb-24">
     <div class="max-w-7xl mx-auto px-6">

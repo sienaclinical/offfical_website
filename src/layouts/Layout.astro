@@ -3,13 +3,59 @@ import '../styles/global.css';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import supergraphic from '../assets/Supergraphic Siena Clinical (Blue).webp';
+import defaultOgImage from '../assets/logo/SIENA CLINICAL LOGO 2 (COLOR).png';
 
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
+  noindex?: boolean;
+  openGraphType?: 'website' | 'article';
+  structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
 }
 
-const { title = 'Siena Clinical', description = 'Siena Clinical - Research Organization' } = Astro.props;
+const {
+  title = 'Siena Clinical | Clinical Research, Consulting, and Upskilling',
+  description = 'Siena Clinical is a clinical research organization providing consultation, research collaboration, scientific publications, and professional upskilling programs in Indonesia.',
+  image = defaultOgImage.src,
+  noindex = false,
+  openGraphType = 'website',
+  structuredData,
+} = Astro.props;
+
+const siteUrl = Astro.site ?? new URL('https://www.sienaclinical.com');
+const canonicalUrl = new URL(Astro.url.pathname, siteUrl).toString();
+const resolvedImage = image.startsWith('http')
+  ? image
+  : new URL(image, siteUrl).toString();
+
+const organizationSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Organization',
+  name: 'Siena Clinical',
+  alternateName: 'PT Siena Sains Medika',
+  url: siteUrl.toString(),
+  logo: new URL(defaultOgImage.src, siteUrl).toString(),
+  email: 'info@sienaclinical.com',
+  sameAs: [
+    'https://linkedin.com/company/siena-clinical',
+    'https://instagram.com/siena_clinical',
+  ],
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: 'Menara Cakrawala 12th Floor Unit 5A, Jl. M.H. Thamrin No.Kav. 9, Kebon Sirih, Menteng',
+    addressLocality: 'Jakarta',
+    postalCode: '10340',
+    addressCountry: 'ID',
+  },
+};
+
+const pageSchemas = structuredData
+  ? Array.isArray(structuredData)
+    ? structuredData
+    : [structuredData]
+  : [];
+const schemas = [organizationSchema, ...pageSchemas];
 ---
 
 <!doctype html>
@@ -21,10 +67,27 @@ const { title = 'Siena Clinical', description = 'Siena Clinical - Research Organ
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
+		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+		<link rel="canonical" href={canonicalUrl} />
+		<meta property="og:site_name" content="Siena Clinical" />
+		<meta property="og:type" content={openGraphType} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:image" content={resolvedImage} />
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:title" content={title} />
+		<meta name="twitter:description" content={description} />
+		<meta name="twitter:image" content={resolvedImage} />
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Prompt:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet" />
 		<title>{title}</title>
+		{
+			schemas.map((schema) => (
+				<script type="application/ld+json" set:html={JSON.stringify(schema)} />
+			))
+		}
 	</head>
 	<body class="font-sans text-siena-primary bg-white relative min-h-screen flex flex-col">
 		<!-- Global Supergraphic Watermark -->

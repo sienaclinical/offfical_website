@@ -5,9 +5,36 @@ import About from '../components/About.astro';
 import CoreValues from '../components/CoreValues.astro';
 import IntegratedCapabilities from '../components/IntegratedCapabilities.astro';
 import OfficialPartners from '../components/OfficialPartners.astro';
+
+const homeSchema = [
+	{
+		'@context': 'https://schema.org',
+		'@type': 'WebSite',
+		name: 'Siena Clinical',
+		url: 'https://www.sienaclinical.com/',
+	},
+	{
+		'@context': 'https://schema.org',
+		'@type': 'MedicalBusiness',
+		name: 'Siena Clinical',
+		url: 'https://www.sienaclinical.com/',
+		email: 'info@sienaclinical.com',
+		address: {
+			'@type': 'PostalAddress',
+			streetAddress: 'Menara Cakrawala 12th Floor Unit 5A, Jl. M.H. Thamrin No.Kav. 9, Kebon Sirih, Menteng',
+			addressLocality: 'Jakarta',
+			postalCode: '10340',
+			addressCountry: 'ID',
+		},
+	}
+];
 ---
 
-<Layout title="Siena Clinical" description="Siena Clinical - Elevating research values into clinical practice">
+<Layout
+	title="Siena Clinical | Clinical Research, Consulting, and Upskilling"
+	description="Siena Clinical helps healthcare and research teams with clinical research, scientific consulting, publication support, and upskilling programs."
+	structuredData={homeSchema}
+>
 	<Hero />
 	<About />
 	<CoreValues />

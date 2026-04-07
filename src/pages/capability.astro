@@ -31,11 +31,33 @@ const tabs = [
     active: false,
   },
 ];
+
+const capabilitySchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  serviceType: "Clinical research consulting and upskilling",
+  provider: {
+    "@type": "Organization",
+    name: "Siena Clinical",
+    url: "https://www.sienaclinical.com/",
+  },
+  areaServed: "Indonesia",
+  hasOfferCatalog: {
+    "@type": "OfferCatalog",
+    name: "Siena Clinical Capabilities",
+    itemListElement: tabs.map((tab, index) => ({
+      "@type": "OfferCatalog",
+      position: index + 1,
+      name: tab.label,
+    })),
+  },
+};
 ---
 
 <Layout
-  title="Capability | Siena Clinical"
-  description="Capability - Siena Clinical Services and Offerings"
+  title="Capabilities | Siena Clinical Clinical Research Services"
+  description="Explore Siena Clinical capabilities in integrated healthcare solutions, clinical consultation, research support, and professional upskilling."
+  structuredData={capabilitySchema}
 >
   <main class="w-full min-h-screen pt-16 pb-24">
     <div class="max-w-7xl mx-auto px-6">

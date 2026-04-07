@@ -1,8 +1,28 @@
 ---
 import Layout from "../layouts/Layout.astro";
+
+const contactSchema = {
+  "@context": "https://schema.org",
+  "@type": "ContactPage",
+  name: "Contact Siena Clinical",
+  url: "https://www.sienaclinical.com/contact",
+  mainEntity: {
+    "@type": "Organization",
+    name: "Siena Clinical",
+    email: "info@sienaclinical.com",
+    sameAs: [
+      "https://linkedin.com/company/siena-clinical",
+      "https://instagram.com/siena_clinical",
+    ],
+  },
+};
 ---
 
-<Layout title="Contact Us | Siena Clinical" description="Get in touch with Siena Clinical. We'd love to hear from you.">
+<Layout
+  title="Contact Siena Clinical | Research and Consultation Inquiries"
+  description="Contact Siena Clinical for clinical research collaboration, consultation, publications, and upskilling inquiries."
+  structuredData={contactSchema}
+>
   <main class="w-full min-h-screen pb-24">
     <!-- Hero / Contact Form Section -->
     <section class="relative overflow-hidden pt-36 pb-20 bg-gradient-to-br from-siena-primary via-[#4a567a] to-siena-primary">
