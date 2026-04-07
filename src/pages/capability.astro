@@ -40,7 +40,7 @@ const tabs = [
   <main class="w-full min-h-screen pt-16 pb-24">
     <div class="max-w-7xl mx-auto px-6">
       <!-- Tabs Layout -->
-      <div class="border-b border-gray-200 mb-20 relative">
+      <div class="border-b border-gray-200 relative">
         <nav
           class="-mb-px flex flex-nowrap overflow-x-auto gap-2 sm:gap-8 pb-1 scrollbar-none"
           role="tablist"
@@ -77,7 +77,7 @@ const tabs = [
           id="tab-content-integrated"
           role="tabpanel"
           aria-labelledby="tab-integrated"
-          class="tab-content block relative w-full max-w-5xl mx-auto py-10 opacity-100 transition-opacity duration-300"
+          class="tab-content block relative w-full max-w-5xl mx-auto py-10 opacity-100 transition-opacity duration-300 mt-20"
         >
           <IntegratedTab />
         </section>
@@ -87,7 +87,7 @@ const tabs = [
           id="tab-content-consultation"
           role="tabpanel"
           aria-labelledby="tab-consultation"
-          class="tab-content hidden relative w-full max-w-6xl mx-auto opacity-0 transition-opacity duration-300"
+          class="tab-content hidden relative w-full max-w-6xl mx-auto opacity-0 transition-opacity duration-300 mt-20"
         >
           <ConsultationTab />
         </section>
@@ -97,7 +97,7 @@ const tabs = [
           id="tab-content-research"
           role="tabpanel"
           aria-labelledby="tab-research"
-          class="tab-content hidden relative w-full max-w-7xl mx-auto py-10 opacity-0 transition-opacity duration-300"
+          class="tab-content hidden relative w-full max-w-7xl mx-auto py-10 opacity-0 transition-opacity duration-300 mt-10"
         >
           <ResearchTab />
         </section>
@@ -107,11 +107,9 @@ const tabs = [
           id="tab-content-upskilling"
           role="tabpanel"
           aria-labelledby="tab-upskilling"
-          class="tab-content hidden relative w-full max-w-5xl mx-auto py-10 opacity-0 transition-opacity duration-300"
+          class="tab-content hidden relative w-full max-w-5xl mx-auto pt-6 pb-10 opacity-0 transition-opacity duration-300"
         >
-          <p class="text-gray-500 text-center">
-            Upskilling content coming soon...
-          </p>
+          <UpskillingTab />
         </section>
       </div>
     </div>

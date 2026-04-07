@@ -1,9 +1,8 @@
 ---
-title: "Advances in Clinical Trial Methodology"
-authors: "Doe J., Smith A., Johnson B."
-journal: "Journal of Clinical Research"
-year: 2024
-link: "https://example.com/publications/advances-clinical-trial"
+title: "A Novel Innovation Using Modified Platelet-Rich Plasma (mPRP) for Preventing Urethral Stricture Recurrence in a Rabbit Model"
+citation: "Scientific Reports. 2026. Publication in-press"
+year: 2026
+kind: "journal"
+order: 1
+published: true
 ---
-
-This publication explores recent advances in clinical trial methodology and their impact on patient outcomes.

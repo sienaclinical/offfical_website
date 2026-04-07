@@ -1,0 +1,224 @@
+---
+const testimonials = [
+  {
+    quote: "Thank you for the Biostatistics 101 course. It was a great learning experience, and I really appreciate the opportunity.",
+    role: "General Practitioner",
+    course: "Participant, Biostatistics 101 Course",
+    iconColor: "bg-sky-100"
+  },
+  {
+    quote: "The instructor very clearly explained everything step-by-step; not just materials from slides but also real cases in RStudio, even sharing the dataset!",
+    role: "Research Assistant",
+    course: "Participant, Biostatistics 101 Course",
+    iconColor: "bg-cyan-100"
+  },
+  {
+    quote: "Teknologi Canggih Ternyata Tidak Sesederhana yang Dibayangkan, Kuliah ini membuka mata bahwa biomarker dan tes genetik bukan jawaban instan, tapi justru membawa kompleksitas baru yang harus dipahami dengan baik.",
+    role: "Undergraduate Student",
+    course: "Participant, Genetic Epidemiology and Biomaker Research",
+    iconColor: "bg-indigo-100"
+  },
+  {
+    quote: "Pemateri sangat keren dan sangat berpengalaman di bidangnya. materi yang disampaikan sangat menarik dan menambah wawasan saya mengenai biostatiatika dan epidemiologi yang belum didapatkan di kelas.",
+    role: "Undegraduate Student",
+    course: "Participant, Genetic Epidemiology and Biomaker Research",
+    iconColor: "bg-teal-100"
+  },
+  {
+    quote: "Trimakasih atas materi yang diberikan, serta sesi diskusi yang menyenangkan sehingga menambah pengetahuan dari pengalaman NS dan temen-teman yang lain.",
+    role: "Primary Health Care Practitioner",
+    course: "Participant, Cervix Sehat Workshop",
+    iconColor: "bg-purple-100"  
+  },
+  {
+    quote: "Lebih paham kelebihan kekurangan datu HPV,IVA dan papsmear.",
+    role: "Primary Health Care Practitioner",
+    course: "Participant, Cervix Sehat Workshop",
+    iconColor: "bg-purple-100"  
+  }
+];
+---
+  <!-- Testimonials Carousel -->
+  <div class="mt-16">
+    <!-- Heading -->
+    <h2 class="text-center text-2xl font-semibold text-gray-900 mb-10" style="font-family: 'Prompt', sans-serif;">
+      What the participants said
+    </h2>
+
+    <!-- Carousel wrapper -->
+    <div class="relative overflow-hidden" id="testimonial-carousel">
+      <!-- Track -->
+      <div
+        id="testimonial-track"
+        class="flex transition-transform duration-500 ease-in-out"
+      >
+        {
+          testimonials.map((testimonial) => (
+            <div class="testimonial-slide min-w-[80%] sm:min-w-[55%] lg:min-w-[45%] px-3">
+              <div class="bg-[#f5f6fa] rounded-2xl px-8 py-7 h-full">
+                <div class={`w-12 h-12 rounded-full ${testimonial.iconColor} flex items-center justify-center mb-5 overflow-hidden`}>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#3D4766" class="w-7 h-7"><path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/></svg>
+                </div>
+                <p class="text-sm text-gray-700 leading-relaxed mb-6 text-center italic">
+                  "{testimonial.quote}"
+                </p>
+                <div class="flex items-center gap-2 text-xs">
+                  <span class="font-semibold text-gray-700">{testimonial.role}</span>
+                  <span class="text-[#8EEDFE] font-medium">{testimonial.course}</span>
+                </div>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <!-- Dots -->
+    <div id="testimonial-dots" class="flex justify-center gap-2 mt-7">
+      {
+        testimonials.map((_, index) => (
+          <button 
+            class={`dot h-2 rounded-full transition-all duration-300 ${index === 0 ? 'bg-[#3D4766] w-5' : 'bg-gray-300 w-2'}`}
+            data-index={index} 
+            aria-label={`Slide ${index + 1}`}
+          ></button>
+        ))
+      }
+    </div>
+  </div>
+
+<script>
+  (function () {
+    const track = document.getElementById("testimonial-track") as HTMLElement;
+    const dots = document.querySelectorAll("#testimonial-dots .dot");
+    const slides = document.querySelectorAll(".testimonial-slide");
+    const total = slides.length;
+    let current = 0;
+    let timer: ReturnType<typeof setInterval>;
+    
+    // Swipe state
+    let startX = 0;
+    let currentX = 0;
+    let isDragging = false;
+    const SWIPE_THRESHOLD = 50; // pixels to trigger swipe
+
+    function getSlideWidth() {
+      return slides[0]?.getBoundingClientRect().width ?? 0;
+    }
+
+    function goTo(index: number, smooth = true) {
+      current = (index + total) % total;
+      const offset = current * getSlideWidth();
+      if (track) {
+        if (smooth) {
+          track.classList.add("transition-transform", "duration-500", "ease-in-out");
+        } else {
+          track.classList.remove("transition-transform", "duration-500", "ease-in-out");
+        }
+        track.style.transform = `translateX(-${offset}px)`;
+      }
+      dots.forEach((d, i) => {
+        d.classList.toggle("bg-[#3D4766]", i === current);
+        d.classList.toggle("w-5", i === current);
+        d.classList.toggle("bg-gray-300", i !== current);
+        d.classList.toggle("w-2", i !== current);
+      });
+    }
+
+    function startAutoplay() {
+      stopAutoplay(); // ensure no duplicates
+      timer = setInterval(() => goTo(current + 1), 4000);
+    }
+
+    function stopAutoplay() {
+      clearInterval(timer);
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener("click", () => {
+        const idx = parseInt(dot.getAttribute("data-index") ?? "0");
+        stopAutoplay();
+        goTo(idx);
+        startAutoplay();
+      });
+    });
+
+    // Pause on hover
+    const carousel = document.getElementById("testimonial-carousel");
+    carousel?.addEventListener("mouseenter", stopAutoplay);
+    carousel?.addEventListener("mouseleave", () => {
+      if (!isDragging) startAutoplay();
+    });
+    
+    // --- Swipe & Drag Logic ---
+    function dragStart(clientX: number) {
+      if (!track) return;
+      isDragging = true;
+      startX = clientX;
+      currentX = startX;
+      stopAutoplay();
+      track.classList.remove("transition-transform", "duration-500", "ease-in-out");
+      track.style.cursor = "grabbing";
+    }
+    
+    function dragMove(clientX: number) {
+      if (!isDragging || !track) return;
+      currentX = clientX;
+      const diff = currentX - startX;
+      const offset = current * getSlideWidth() - diff;
+      track.style.transform = `translateX(-${offset}px)`;
+    }
+    
+    function dragEnd() {
+      if (!isDragging || !track) return;
+      isDragging = false;
+      track.style.cursor = "grab";
+      
+      const diff = currentX - startX;
+      
+      if (Math.abs(diff) > SWIPE_THRESHOLD) {
+        if (diff > 0) {
+          // Swiped right (previous)
+          goTo(current - 1);
+        } else {
+          // Swiped left (next)
+          goTo(current + 1);
+        }
+      } else {
+        // Snap back to current
+        goTo(current);
+      }
+      
+      startAutoplay();
+    }
+
+    // Touch events
+    track?.addEventListener("touchstart", (e) => dragStart(e.touches[0].clientX), { passive: true });
+    track?.addEventListener("touchmove", (e) => dragMove(e.touches[0].clientX), { passive: true });
+    track?.addEventListener("touchend", dragEnd);
+
+    // Mouse events
+    track?.addEventListener("mousedown", (e) => {
+      e.preventDefault(); // prevent text selection
+      dragStart(e.clientX);
+    });
+    window.addEventListener("mousemove", (e) => {
+      if (isDragging) dragMove(e.clientX);
+    });
+    window.addEventListener("mouseup", () => {
+      if (isDragging) dragEnd();
+    });
+    
+    if (track) track.style.cursor = "grab";
+
+    // Set initial position without animation then start
+    goTo(0, false);
+    setTimeout(startAutoplay, 50);
+    
+    // Handle Window Resize to snap correctly
+    window.addEventListener('resize', () => {
+        goTo(current, false);
+    });
+
+  })();
+</script>

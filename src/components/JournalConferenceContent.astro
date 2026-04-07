@@ -1,0 +1,55 @@
+---
+import { getCollection } from "astro:content";
+
+const iconBook = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M18 2H7a3 3 0 0 0-3 3v14a3 3 0 0 0 3 3h11a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2Zm0 18H7a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1h11v16ZM9 7h7v2H9V7Zm0 4h7v2H9v-2Z"/></svg>`;
+const iconScreen = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-8 h-8"><path d="M20 4H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h6v2H7v2h10v-2h-3v-2h6a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Zm0 12H4V6h16v10Z"/></svg>`;
+
+const items = (await getCollection("publications"))
+  .filter((item) => item.data.published)
+  .sort((a, b) => a.data.order - b.data.order || b.data.year - a.data.year)
+  .map((item) => ({
+    title: item.data.title,
+    meta: item.data.citation,
+    icon: item.data.kind === "conference" ? iconScreen : iconBook,
+    cardUrl: item.data.link,
+  }));
+---
+
+<div class="space-y-12">
+  <p class="text-gray-600 text-sm md:text-[15px] leading-relaxed text-center max-w-4xl mx-auto">
+    Our portfolio reflects a commitment to interdisciplinary research. By working alongside experts from various domains, we have been able to contribute to meaningful findings that bridge the gap between different scientific disciplines.
+  </p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8">
+    {
+      items.map((item) => (
+        item.cardUrl ? (
+          <a
+            href={item.cardUrl}
+            target="_blank"
+            rel="noreferrer"
+            class="group block bg-white border border-gray-100 rounded-xl p-8 shadow-sm hover:shadow-md transition-all duration-300 hover:border-siena-cyan/50 hover:-translate-y-1"
+          >
+            <div class="text-siena-primary mb-5 group-hover:text-siena-cyan transition-colors" set:html={item.icon} />
+            <h3 class="text-[17px] font-bold text-gray-900 mb-3 leading-snug group-hover:text-siena-cyan transition-colors">
+              {item.title}
+            </h3>
+            <p class="text-[14.5px] text-gray-600 leading-relaxed">
+              {item.meta}
+            </p>
+          </a>
+        ) : (
+          <article class="bg-white border border-gray-100 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow">
+            <div class="text-siena-primary mb-5" set:html={item.icon} />
+            <h3 class="text-[17px] font-bold text-gray-900 mb-3 leading-snug">
+              {item.title}
+            </h3>
+            <p class="text-[14.5px] text-gray-600 leading-relaxed">
+              {item.meta}
+            </p>
+          </article>
+        )
+      ))
+    }
+  </div>
+</div>

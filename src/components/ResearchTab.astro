@@ -1,8 +1,7 @@
 ---
 import { Image } from "astro:assets";
+import { getCollection } from "astro:content";
 import researchHero from "../assets/capability/research-hero.webp";
-import hrhpvImage from "../assets/capability/hrhpv.webp";
-import prostateImage from "../assets/capability/prostate-cancer.webp";
 import researchIllustration from "../assets/capability/virtual-team-meeting.svg";
 
 const researchHeroData = {
@@ -20,40 +19,9 @@ const researchCollaborationOptions = [
   { title: "Consultation or advise only" },
 ];
 
-const researchStudies = [
-  {
-    title: "hrHPV and Cervical pre-Cancer",
-    description:
-      "The participation of cervical cancer screening in Indonesia is, unfortunately, very low (12%), which leads to the high mortality rate (60%) amongst the incidences. This phenomenon is due to lack of awareness and lack of confidence in doing the screening. Our research focuses on finding an alternative of less invasive screening method yet accurate, which later is expected to increase the participation rate of screening programs.",
-    image: hrhpvImage,
-    alt: "hrHPV and Cervical pre-Cancer",
-    details: [
-      {
-        label: "Collaboration",
-        value: "BWCC, RSPAD Gatot Soebroto, Yarsi University",
-      },
-      { label: "Methods", value: "Genome Sequencing, PCR, IPD meta-analysis" },
-      { label: "Timeline", value: "2024-2027" },
-      { label: "Funding", value: "A non-profit organization" },
-    ],
-  },
-  {
-    title: "Prostate Cancers and Kidney Diseases",
-    description:
-      "Prostate cancer ranks as the sixth most common cancer among men in Indonesia. The exact causes of prostate cancer are not fully understood, but several factors contribute to its development, including genetic, lifestyle, environmental influences, and lack of awareness and screening. Notably, prostate cancer survival rates in SEA, including Indonesia, are generally lower than those in Europe and North America. This disparity may be attributed to less access to diagnostic facilities and higher age at disease recognition compared to advanced countries. Improving early detection and access to quality healthcare services is crucial for enhancing survival outcomes for prostate cancer patients in Indonesia, particularly in low-resource settings.",
-    image: prostateImage,
-    alt: "Prostate Cancers and Kidney Diseases",
-    details: [
-      { label: "Collaboration", value: "UB, UMN, RSUD Saiful Anwar" },
-      {
-        label: "Methods",
-        value: "Genome Sequencing, Augmented Reality, Epidemiology",
-      },
-      { label: "Timeline", value: "2024-2027" },
-      { label: "Funding", value: "A non-profit organization, DIKTI" },
-    ],
-  },
-];
+const researchStudies = (await getCollection("researchStudies"))
+  .filter((study) => study.data.published)
+  .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <div class="space-y-12">
@@ -140,8 +108,8 @@ const researchStudies = [
         <article class="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] items-center rounded-4xl border border-gray-100 bg-white p-6 shadow-sm">
           <div class="overflow-hidden rounded-3xl bg-slate-100">
             <Image
-              src={study.image}
-              alt={study.alt}
+              src={study.data.image}
+              alt={study.data.imageAlt}
               class="w-full h-full object-cover min-h-[320px]"
             />
           </div>
@@ -151,12 +119,12 @@ const researchStudies = [
                 Research study
               </p>
               <h3 class="text-2xl font-semibold text-siena-primary">
-                {study.title}
+                {study.data.title}
               </h3>
             </div>
-            <p class="text-gray-600 leading-relaxed">{study.description}</p>
+            <p class="text-gray-600 leading-relaxed">{study.data.description}</p>
             <div class="grid gap-4 sm:grid-cols-2">
-              {study.details.map((detail) => (
+              {study.data.details.map((detail) => (
                 <div class="rounded-3xl border border-gray-100 bg-slate-50 p-4">
                   <p class="font-semibold text-gray-900">{detail.label}</p>
                   <p class="text-gray-600 mt-2">{detail.value}</p>

@@ -1,19 +1,58 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import ResearchersSection from "../components/ResearchersSection.astro";
-import ClinicalExpertsSection from "../components/ClinicalExpertsSection.astro";
-import TechTeamSection from "../components/TechTeamSection.astro";
-import OperatingOfficersSection from "../components/OperatingOfficersSection.astro";
+import { getCollection } from "astro:content";
+import TeamSection from "../components/TeamSection.astro";
+
+const teamEntries = (await getCollection("team")).sort(
+  (a, b) => a.data.order - b.data.order || a.data.name.localeCompare(b.data.name),
+);
+
+const researchers = teamEntries.filter(
+  (entry) => entry.data.category === "researchers",
+);
+const clinicalExperts = teamEntries.filter(
+  (entry) => entry.data.category === "clinical-experts",
+);
+const techTeam = teamEntries.filter(
+  (entry) => entry.data.category === "tech-team",
+);
+const operatingOfficers = teamEntries.filter(
+  (entry) => entry.data.category === "operating-officers",
+);
 ---
 
 <Layout title="Team | Siena Clinical" description="Team - Siena Clinical">
   <main class="w-full min-h-screen pt-16 pb-24">
     <div class="max-w-7xl mx-auto px-6">
-      <ResearchersSection />
-      <ClinicalExpertsSection />
-      <TechTeamSection />
-      <OperatingOfficersSection />
+      <TeamSection
+        title="Researchers"
+        description="Our researchers serve as your full strategic partners, from study design and protocol development to advanced data analysis and final reporting. Our diverse scientific board leverages years of experience in epidemiology, biostatistics, and clinical medicine to tackle the most pressing health challenges. We don't just collect data; we transform it into actionable evidence that empowers academia, government institutions, and healthcare stakeholders."
+        members={researchers}
+        showLinks={true}
+        containerClass="pt-10 pb-6"
+      />
+
+      <TeamSection
+        title="Clinical Experts"
+        description="Our clinical experts bring deep, frontline insights to the heart of our innovation process. By collaborating closely with our research teams, we co-create practical solutions for today's most pressing healthcare challenges. From specialized clinical-research consultations to immersive hands-on training, we empower healthcare practitioners with the skills and evidence-based strategies they need to excel."
+        members={clinicalExperts}
+        columnsClass="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8"
+        cardClass="bg-white border border-gray-100 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col"
+      />
+
+      <TeamSection
+        title="Tech Team"
+        description="Our technology team delivers comprehensive support for digital product development, creating intuitive tools designed for the people who need them most. Whether we are building platforms for direct patient engagement, empowering researchers with advanced data tools, or streamlining research operations, we bridge the gap between technical excellence and real-world impact."
+        members={techTeam}
+      />
+
+      <TeamSection
+        title="Operating Officers"
+        description="Behind every successful project is our Operational Team, the unsung heroes of Siena Clinical. They are the tactical masters who turn logistical hurdles into smooth pathways for progress. In the complex world of healthcare implementation, they move with a signature Siena spirit: a relentless commitment to efficiency. Whether navigating remote field sites or managing intricate project timelines, our operations team ensures that no challenge stands in the way of delivering care and data where it is needed most."
+        members={operatingOfficers}
+        columnsClass="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 max-w-4xl mx-auto"
+        cardClass="bg-white border border-gray-100 rounded-xl p-8 shadow-sm hover:shadow-md transition-shadow text-center flex flex-col"
+      />
     </div>
   </main>
 </Layout>
-
