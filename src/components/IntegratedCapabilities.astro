@@ -7,25 +7,28 @@ import upskillIcon from '../assets/siena-icon/Dark Blue/Upskill (2).png';
 
 const capabilities = [
   {
+    id: 'research',
     title: 'Research',
     description: 'We are your full partner for everything from strategy to execution.',
     iconSrc: researchIcon,
     iconAlt: 'Research Icon',
-    readMoreUrl: ''
+    readMoreUrl: '/capability?tab=research#capability-tabs'
   },
   {
+    id: 'consultation',
     title: 'Consultation',
     description: 'We are more than happy to be your thinking partner for your project',
     iconSrc: consultationIcon,
     iconAlt: 'Consultation Icon',
-    readMoreUrl: ''
+    readMoreUrl: '/capability?tab=consultation#capability-tabs'
   },
   {
+    id: 'upskilling',
     title: 'Upskilling',
     description: 'We provide tailored-needs training, workshops and short-courses',
     iconSrc: upskillIcon,
     iconAlt: 'Upskill Icon',
-    readMoreUrl: '/capability'
+    readMoreUrl: '/capability?tab=upskilling#capability-tabs'
   }
 ];
 ---
@@ -43,7 +46,11 @@ const capabilities = [
     
     <div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
       {capabilities.map((item) => (
-        <div class="flex flex-col items-center">
+        <a
+          href={item.readMoreUrl}
+          class="group flex flex-col items-center rounded-3xl px-6 py-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-siena-cyan focus-visible:ring-offset-2"
+          aria-label={`Open ${item.title} capability tab`}
+        >
           <!-- Icon Image -->
           <div class="mb-6 h-20 flex justify-center items-center">
             <Image src={item.iconSrc} alt={item.iconAlt} class="max-h-full w-auto object-contain" />
@@ -57,12 +64,10 @@ const capabilities = [
             {item.description}
           </p>
 
-          {item.readMoreUrl && (
-            <a href={item.readMoreUrl} class="mt-4 text-yellow-500 font-medium hover:text-yellow-600 transition-colors inline-flex items-center gap-1">
-              Read more <span aria-hidden="true">&rarr;</span>
-            </a>
-          )}
-        </div>
+          <span class="mt-4 inline-flex items-center gap-1 text-yellow-500 font-medium">
+            Read more <span aria-hidden="true">&rarr;</span>
+          </span>
+        </a>
       ))}
     </div>
   </div>

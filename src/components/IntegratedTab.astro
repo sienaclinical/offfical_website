@@ -6,6 +6,7 @@ import iconUpskill from "../assets/siena-icon/SVG (Vector)/Upskill 01.svg";
 
 const capabilities = [
   {
+    id: "consultation",
     title: "Consultation",
     description:
       "We are pleased to collaborate as a thought partner in supporting your initiatives. Recognizing the varying needs of each engagement, we offer multiple consultation frameworks—ranging from fixed-scope consultancy and modular engagements to retainer-based advisory and on-demand analytical support.",
@@ -13,6 +14,7 @@ const capabilities = [
     alt: "Consultation illustration",
   },
   {
+    id: "research",
     title: "Research",
     description:
       "We welcome academia, practitioners, governmental institutions, and other healthcare stakeholders to collaborate with Siena Clinical performing high quality scientific research to solve real clinical problems and further to implement the findings to the real practice. We offer consultations on research ideas, study design, or research proposals. We are also open to collaborations to expand your research idea into protocol, to conduct and manage data collection (including the development of electronic/web-based database, forms), data analysis, and reporting or publication.",
@@ -20,6 +22,7 @@ const capabilities = [
     alt: "Research illustration",
   },
   {
+    id: "upskilling",
     title: "Upskilling",
     description:
       "Siena clinical is not only committed to improve the quality of the clinical research in Indonesia, but also to the development of fundamental knowledge and skills in research and health science. We provide training, workshops & short course that are delivered by the experts on each particular topic. Our educational activities cover (but not limited to)",
@@ -70,8 +73,19 @@ const capabilities = [
                   />
                 </div>
                 <div class="min-w-0">
-                  <h3 class="text-xl font-bold text-siena-primary mb-2">
-                    {item.title}
+                  <h3 class="mb-2">
+                    <a
+                      href={`/capability?tab=${item.id}#capability-tabs`}
+                      class="inline-flex items-center gap-2 text-xl font-bold text-siena-primary transition-colors duration-200 hover:text-siena-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-siena-cyan focus-visible:ring-offset-2 rounded-sm"
+                    >
+                      <span>{item.title}</span>
+                      <span
+                        class="material-symbols-outlined text-[18px] leading-none text-siena-cyan transition-transform duration-200 group-hover:scale-110"
+                        aria-hidden="true"
+                      >
+                        link_2
+                      </span>
+                    </a>
                   </h3>
                   <p class="text-gray-600 leading-relaxed text-[15px]">
                     {item.description}
@@ -103,8 +117,19 @@ const capabilities = [
                   </div>
                 ) : (
                   <div class="text-right max-w-lg transition-all duration-300 group-hover:-translate-x-1 opacity-95 group-hover:opacity-100">
-                    <h3 class="text-2xl font-bold text-siena-primary mb-5">
-                      {item.title}
+                    <h3 class="mb-5">
+                      <a
+                        href={`/capability?tab=${item.id}#capability-tabs`}
+                        class="inline-flex items-center gap-2 text-2xl font-bold text-siena-primary transition-colors duration-200 hover:text-siena-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-siena-cyan focus-visible:ring-offset-2 rounded-sm"
+                      >
+                        <span>{item.title}</span>
+                        <span
+                          class="material-symbols-outlined text-[20px] leading-none text-siena-cyan transition-transform duration-200 group-hover:scale-110"
+                          aria-hidden="true"
+                        >
+                          link_2
+                        </span>
+                      </a>
                     </h3>
                     <p class="text-gray-600 leading-relaxed text-[15px]">
                       {item.description}
@@ -133,8 +158,19 @@ const capabilities = [
                   </div>
                 ) : (
                   <div class="text-left max-w-lg transition-all duration-300 group-hover:translate-x-1 opacity-95 group-hover:opacity-100">
-                    <h3 class="text-2xl font-bold text-siena-primary mb-5">
-                      {item.title}
+                    <h3 class="mb-5">
+                      <a
+                        href={`/capability?tab=${item.id}#capability-tabs`}
+                        class="inline-flex items-center gap-2 text-2xl font-bold text-siena-primary transition-colors duration-200 hover:text-siena-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-siena-cyan focus-visible:ring-offset-2 rounded-sm"
+                      >
+                        <span>{item.title}</span>
+                        <span
+                          class="material-symbols-outlined text-[20px] leading-none text-siena-cyan transition-transform duration-200 group-hover:scale-110"
+                          aria-hidden="true"
+                        >
+                          link_2
+                        </span>
+                      </a>
                     </h3>
                     <p class="text-gray-600 leading-relaxed text-[15px]">
                       {item.description}

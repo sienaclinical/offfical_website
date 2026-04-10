@@ -32,10 +32,30 @@ const currentYear = new Date().getFullYear();
     </div>
 
     <!-- Right Column: Contact & Copyright -->
-    <div class="flex flex-col md:items-end gap-2 text-left md:text-right">
-      <a href="/contact" class="font-heading font-semibold text-lg text-siena-primary mb-2 hover:text-siena-cyan transition-colors">
-        Contact us
+    <div class="flex flex-col md:items-end gap-4 text-left md:text-right">
+      <a
+        href="/contact"
+        class="group inline-flex items-center gap-2 self-start md:self-end rounded-full border border-siena-primary/20 bg-siena-primary px-5 py-3 font-heading text-base font-semibold text-white shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:border-siena-cyan hover:bg-siena-cyan focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-siena-cyan focus-visible:ring-offset-2 cursor-pointer"
+        aria-label="Contact Siena Clinical"
+      >
+        <span>Contact us</span>
+        <svg
+          class="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1"
+          viewBox="0 0 20 20"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          aria-hidden="true"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M4.167 10h11.666M10.833 4.167 15.833 10l-5 5.833" />
+        </svg>
       </a>
+      <address class="not-italic text-sm leading-6 text-gray-600">
+        Menara Cakrawala 12th Floor Unit 5A<br />
+        Jl. M.H. Thamrin No.Kav. 9, Kebon Sirih, Menteng<br />
+        DKI Jakarta 10340<br />
+        Indonesia
+      </address>
       <p class="text-sm text-gray-500">
         Copyright &copy;{currentYear} Siena Clinical. All rights reserved.
       </p>

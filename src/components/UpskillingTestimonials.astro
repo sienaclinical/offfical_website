@@ -41,9 +41,34 @@ const testimonials = [
   <!-- Testimonials Carousel -->
   <div class="mt-16">
     <!-- Heading -->
-    <h2 class="text-center text-2xl font-semibold text-gray-900 mb-10" style="font-family: 'Prompt', sans-serif;">
-      What the participants said
-    </h2>
+    <div class="mb-10 flex items-center justify-between gap-4">
+      <div class="w-24 hidden sm:block"></div>
+      <h2 class="text-center text-2xl font-semibold text-gray-900" style="font-family: 'Prompt', sans-serif;">
+        What the participants said
+      </h2>
+      <div class="flex items-center gap-3">
+        <button
+          type="button"
+          id="testimonial-prev"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-gray-700 hover:bg-slate-50 transition-colors"
+          aria-label="Previous testimonial"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M15 18l-6-6 6-6" />
+          </svg>
+        </button>
+        <button
+          type="button"
+          id="testimonial-next"
+          class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 text-gray-700 hover:bg-slate-50 transition-colors"
+          aria-label="Next testimonial"
+        >
+          <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 6l6 6-6 6" />
+          </svg>
+        </button>
+      </div>
+    </div>
 
     <!-- Carousel wrapper -->
     <div class="relative overflow-hidden" id="testimonial-carousel">
@@ -92,6 +117,8 @@ const testimonials = [
     const track = document.getElementById("testimonial-track") as HTMLElement;
     const dots = document.querySelectorAll("#testimonial-dots .dot");
     const slides = document.querySelectorAll(".testimonial-slide");
+    const prev = document.getElementById("testimonial-prev");
+    const next = document.getElementById("testimonial-next");
     const total = slides.length;
     let current = 0;
     let timer: ReturnType<typeof setInterval>;
@@ -141,6 +168,18 @@ const testimonials = [
         goTo(idx);
         startAutoplay();
       });
+    });
+
+    prev?.addEventListener("click", () => {
+      stopAutoplay();
+      goTo(current - 1);
+      startAutoplay();
+    });
+
+    next?.addEventListener("click", () => {
+      stopAutoplay();
+      goTo(current + 1);
+      startAutoplay();
     });
 
     // Pause on hover
