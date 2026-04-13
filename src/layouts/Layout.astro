@@ -12,6 +12,7 @@ interface Props {
   noindex?: boolean;
   openGraphType?: 'website' | 'article';
   structuredData?: Record<string, unknown> | Array<Record<string, unknown>>;
+  breadcrumbLabel?: string;
 }
 
 const {
@@ -21,6 +22,7 @@ const {
   noindex = false,
   openGraphType = 'website',
   structuredData,
+  breadcrumbLabel,
 } = Astro.props;
 
 const siteUrl = Astro.site ?? new URL('https://www.sienaclinical.com');
@@ -50,12 +52,51 @@ const organizationSchema = {
   },
 };
 
+const siteNavSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'SiteNavigationElement',
+  name: ['Home', 'Capability', 'Publication', 'Team', 'Contact'],
+  url: [
+    siteUrl.toString(),
+    `${siteUrl}capability`,
+    `${siteUrl}publication`,
+    `${siteUrl}team`,
+    `${siteUrl}contact`,
+  ],
+};
+
+const breadcrumbSchema = breadcrumbLabel
+  ? {
+      '@context': 'https://schema.org',
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        {
+          '@type': 'ListItem',
+          position: 1,
+          name: 'Home',
+          item: siteUrl.toString(),
+        },
+        {
+          '@type': 'ListItem',
+          position: 2,
+          name: breadcrumbLabel,
+          item: canonicalUrl,
+        },
+      ],
+    }
+  : null;
+
 const pageSchemas = structuredData
   ? Array.isArray(structuredData)
     ? structuredData
     : [structuredData]
   : [];
-const schemas = [organizationSchema, ...pageSchemas];
+const schemas = [
+  organizationSchema,
+  siteNavSchema,
+  ...(breadcrumbSchema ? [breadcrumbSchema] : []),
+  ...pageSchemas,
+];
 ---
 
 <!doctype html>
@@ -65,9 +106,12 @@ const schemas = [organizationSchema, ...pageSchemas];
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
+		<link rel="manifest" href="/site.webmanifest" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+		<meta name="theme-color" content="#3D4766" />
 		<meta name="generator" content={Astro.generator} />
 		<meta name="description" content={description} />
-		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow'} />
+		<meta name="robots" content={noindex ? 'noindex, nofollow' : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'} />
 		<link rel="canonical" href={canonicalUrl} />
 		<meta property="og:site_name" content="Siena Clinical" />
 		<meta property="og:type" content={openGraphType} />
@@ -75,6 +119,7 @@ const schemas = [organizationSchema, ...pageSchemas];
 		<meta property="og:description" content={description} />
 		<meta property="og:url" content={canonicalUrl} />
 		<meta property="og:image" content={resolvedImage} />
+		<meta property="og:locale" content="en_US" />
 		<meta name="twitter:card" content="summary_large_image" />
 		<meta name="twitter:title" content={title} />
 		<meta name="twitter:description" content={description} />
