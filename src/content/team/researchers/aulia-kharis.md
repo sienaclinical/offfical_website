@@ -2,7 +2,7 @@
 name: "Aulia Kharis"
 role: "Statistician"
 category: "researchers"
-order: 5
+order: 6
 bio: "A statistician, Master's candidate in Statistics, Certified TensorFlow Developer, and R Shiny Developer."
 image: "../../../assets/teams/researchers/Aulia Kharis.webp"
 links:
