@@ -2,7 +2,7 @@
 name: "Dewi Amalia, MBat"
 role: "Statistician"
 category: "researchers"
-order: 4
+order: 5
 bio: "A statistician graduated from Monash University Australia with a specialization in Business Analytics."
 image: "../../../assets/teams/researchers/Dewi Amalia, MBat.webp"
 links:
