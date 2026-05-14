@@ -2,8 +2,8 @@
 name: "Dr. rer. nat. Andri Frediansyah, S.Si., M.Sc."
 role: "Researcher - Food Technical Expert"
 category: "researchers"
-order: 7
-bio: ""
+order: 4
+bio: "Specialist in Biology, Pharmacobiology, and Natural Product Chemistry with a research focus on metabologenomics for functional food and biopharmaceutical development."
 image: "../../../assets/teams/researchers/Andri Frediyansyah.webp"
 links:
   - kind: "linkedin"
