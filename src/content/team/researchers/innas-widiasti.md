@@ -2,7 +2,7 @@
 name: "Innas Widiasti, M.Biomed"
 role: "Bioinformatician"
 category: "researchers"
-order: 6
+order: 7
 bio: "Biomedical master's graduate in bioinformatics with experience in cancer research, including database analysis, DNAseq, mutations, and molecular docking for drug analysis."
 image: "../../../assets/teams/researchers/Innas Widiasti, M.Biomed.webp"
 links:
