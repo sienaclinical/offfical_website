@@ -3,7 +3,7 @@ name: "Dr. rer. nat. Andri Frediansyah, MSc"
 role: "Pharmacobiologist"
 category: "researchers"
 order: 4
-bio: "Specialist in Biology, Pharmacobiology, and Natural Product Chemistry with a research focus on metabologenomics for functional food and biopharmaceutical development."
+bio: "Specialist in Biology, Pharmacobiology, & Natural Product Chemistry with a research focus on metabologenomics for functional food & biopharmaceutical development."
 image: "../../../assets/teams/researchers/Andri Frediyansyah.webp"
 links:
   - kind: "linkedin"
