@@ -43,14 +43,25 @@ const events = (await getCollection("pastEvents"))
       </div>
     </div>
 
-    <div class="carousel relative overflow-hidden rounded-3xl bg-slate-50">
+    <div class="carousel relative overflow-hidden rounded-3xl bg-slate-900">
       <div class="carousel-track flex transition-transform duration-500 ease-out">
         {carousel.map((slide) => (
-          <div class="carousel-slide w-full shrink-0">
+          <div class="carousel-slide w-full shrink-0 relative h-[240px] sm:h-[320px] md:h-[420px] cursor-pointer" role="button" tabindex="0" aria-label={`View ${slide.data.imageAlt} fullscreen`}>
+            {/* Blurred background layer — hidden by default, shown for portrait images */}
+            <Image
+              src={slide.data.image}
+              alt=""
+              aria-hidden="true"
+              class="carousel-bg absolute inset-0 w-full h-full object-cover blur-2xl scale-110 opacity-0 transition-opacity duration-300 pointer-events-none select-none"
+              widths={[480]}
+              sizes="480px"
+              loading="lazy"
+            />
+            {/* Foreground image */}
             <Image
               src={slide.data.image}
               alt={slide.data.imageAlt}
-              class="w-full h-[240px] sm:h-[320px] md:h-[420px] object-cover"
+              class="carousel-img absolute inset-0 w-full h-full object-cover transition-all duration-300"
               widths={[960, 1440]}
               sizes="(max-width: 768px) 100vw, 960px"
               loading="lazy"
@@ -126,6 +137,66 @@ const events = (await getCollection("pastEvents"))
   </section>
 </div>
 
+<!-- Lightbox overlay -->
+<div
+  id="lightbox"
+  class="fixed inset-0 z-50 hidden items-center justify-center bg-black/90 backdrop-blur-sm"
+  role="dialog"
+  aria-modal="true"
+  aria-label="Image lightbox"
+>
+  <!-- Close button -->
+  <button
+    id="lightbox-close"
+    type="button"
+    class="absolute top-4 right-4 z-10 inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+    aria-label="Close lightbox"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" class="w-5 h-5">
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+
+  <!-- Prev -->
+  <button
+    id="lightbox-prev"
+    type="button"
+    class="absolute left-3 sm:left-5 z-10 inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+    aria-label="Previous image"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+      <polyline points="15 18 9 12 15 6"/>
+    </svg>
+  </button>
+
+  <!-- Next -->
+  <button
+    id="lightbox-next"
+    type="button"
+    class="absolute right-3 sm:right-5 z-10 inline-flex items-center justify-center w-11 h-11 rounded-full bg-white/10 text-white hover:bg-white/20 transition-colors"
+    aria-label="Next image"
+  >
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5">
+      <polyline points="9 18 15 12 9 6"/>
+    </svg>
+  </button>
+
+  <!-- Image container -->
+  <div id="lightbox-img-wrapper" class="flex items-center justify-center w-full h-full px-14 py-16 sm:px-20 sm:py-20">
+    <img
+      id="lightbox-img"
+      src=""
+      alt=""
+      class="max-w-full max-h-full object-contain rounded-lg shadow-2xl transition-transform duration-300 scale-95 opacity-0"
+    />
+  </div>
+
+  <!-- Counter -->
+  <div id="lightbox-counter" class="absolute bottom-5 left-1/2 -translate-x-1/2 flex items-center gap-2">
+  </div>
+</div>
+
 <script>
   document.addEventListener("DOMContentLoaded", () => {
     const AUTOPLAY_INTERVAL = 4000;
@@ -190,5 +261,175 @@ const events = (await getCollection("pastEvents"))
 
     setIndex(0);
     startAutoplay();
+
+    /* ── Smart crop-prevention ──────────────────────────────────── */
+    /*  Compare each image's aspect ratio to the container's.
+     *  If the image is significantly "taller" than the container,
+     *  switch to object-contain + blurred backdrop so nothing
+     *  important gets cropped.                                    */
+    slides.forEach((slide) => {
+      const fg = slide.querySelector<HTMLImageElement>(".carousel-img");
+      const bg = slide.querySelector<HTMLImageElement>(".carousel-bg");
+      if (!fg || !bg) return;
+
+      const applyOrientation = () => {
+        const imgRatio  = fg.naturalWidth / fg.naturalHeight;   // e.g. 1.33 for 4:3
+        const boxRatio  = slide.offsetWidth / slide.offsetHeight; // e.g. 2.3 for wide container
+
+        // If the image is notably taller relative to the container, contain it
+        const needsContain = imgRatio < boxRatio * 0.85;
+
+        if (needsContain) {
+          fg.classList.remove("object-cover");
+          fg.classList.add("object-contain");
+          bg.classList.remove("opacity-0");
+          bg.classList.add("opacity-60");
+        }
+      };
+
+      if (fg.complete && fg.naturalWidth > 0) {
+        applyOrientation();
+      } else {
+        fg.addEventListener("load", applyOrientation, { once: true });
+      }
+    });
+
+    /* ── Lightbox ───────────────────────────────────────────────── */
+    const lb        = document.getElementById("lightbox")!;
+    const lbImg     = document.getElementById("lightbox-img") as HTMLImageElement;
+    const lbClose   = document.getElementById("lightbox-close")!;
+    const lbPrev    = document.getElementById("lightbox-prev")!;
+    const lbNext    = document.getElementById("lightbox-next")!;
+    const lbCounter = document.getElementById("lightbox-counter")!;
+    const lbWrapper = document.getElementById("lightbox-img-wrapper")!;
+
+    // Collect full-res src from each carousel foreground image
+    const imgSrcs = slides.map((s) => {
+      const img = s.querySelector<HTMLImageElement>(".carousel-img");
+      // Use srcset's largest source, fallback to src
+      if (img?.srcset) {
+        const parts = img.srcset.split(",").map((p) => p.trim());
+        const last  = parts[parts.length - 1];
+        return last.split(/\s+/)[0];
+      }
+      return img?.src ?? "";
+    });
+
+    const imgAlts = slides.map((s) => {
+      const img = s.querySelector<HTMLImageElement>(".carousel-img");
+      return img?.alt ?? "";
+    });
+
+    let lbIndex = 0;
+    let lbOpen  = false;
+    let lbAnimating = false;
+
+    const buildDots = () => {
+      lbCounter.innerHTML = "";
+      slides.forEach((_, i) => {
+        const dot = document.createElement("button");
+        dot.type = "button";
+        dot.className = `w-2 h-2 rounded-full transition-all duration-300 ${
+          i === lbIndex ? "bg-white w-5" : "bg-white/40 hover:bg-white/60"
+        }`;
+        dot.setAttribute("aria-label", `Go to image ${i + 1}`);
+        dot.addEventListener("click", () => showLightbox(i));
+        lbCounter.appendChild(dot);
+      });
+    };
+
+    const swapImage = (i: number) => {
+      lbIndex = ((i % slides.length) + slides.length) % slides.length;
+      lbImg.src = imgSrcs[lbIndex];
+      lbImg.alt = imgAlts[lbIndex];
+      buildDots();
+    };
+
+    const showLightbox = (i: number) => {
+      if (lbAnimating) return;
+
+      const newIndex = ((i % slides.length) + slides.length) % slides.length;
+
+      if (!lbOpen) {
+        // First open — fade in
+        swapImage(newIndex);
+        lbImg.classList.remove("scale-100", "opacity-100");
+        lbImg.classList.add("scale-95", "opacity-0");
+
+        lb.classList.remove("hidden");
+        lb.classList.add("flex");
+        document.body.style.overflow = "hidden";
+        clearInterval(autoplayTimer);
+        lbOpen = true;
+
+        requestAnimationFrame(() => {
+          lbImg.classList.remove("scale-95", "opacity-0");
+          lbImg.classList.add("scale-100", "opacity-100");
+        });
+      } else if (newIndex !== lbIndex) {
+        // Navigate — fade out current, swap, fade in new
+        lbAnimating = true;
+        lbImg.classList.remove("opacity-100");
+        lbImg.classList.add("opacity-0");
+
+        setTimeout(() => {
+          swapImage(newIndex);
+          requestAnimationFrame(() => {
+            lbImg.classList.remove("opacity-0");
+            lbImg.classList.add("opacity-100");
+            setTimeout(() => { lbAnimating = false; }, 250);
+          });
+        }, 250);
+      }
+    };
+
+    const closeLightbox = () => {
+      lb.classList.add("hidden");
+      lb.classList.remove("flex");
+      document.body.style.overflow = "";
+      lbOpen = false;
+      lbAnimating = false;
+      startAutoplay();
+    };
+
+    // Open on slide click
+    slides.forEach((slide, i) => {
+      slide.addEventListener("click", () => showLightbox(i));
+      slide.addEventListener("keydown", (e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          showLightbox(i);
+        }
+      });
+    });
+
+    lbClose.addEventListener("click", closeLightbox);
+    lbPrev.addEventListener("click", () => showLightbox(lbIndex - 1));
+    lbNext.addEventListener("click", () => showLightbox(lbIndex + 1));
+
+    // Click outside image to close
+    lbWrapper.addEventListener("click", (e) => {
+      if (e.target === lbWrapper) closeLightbox();
+    });
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (lb.classList.contains("hidden")) return;
+      if (e.key === "Escape") closeLightbox();
+      if (e.key === "ArrowLeft") showLightbox(lbIndex - 1);
+      if (e.key === "ArrowRight") showLightbox(lbIndex + 1);
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    lb.addEventListener("touchstart", (e) => {
+      touchStartX = e.changedTouches[0].clientX;
+    }, { passive: true });
+    lb.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - touchStartX;
+      if (Math.abs(dx) > 50) {
+        dx > 0 ? showLightbox(lbIndex - 1) : showLightbox(lbIndex + 1);
+      }
+    }, { passive: true });
   });
 </script>
